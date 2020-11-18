@@ -22,9 +22,17 @@ const App = () => {
               value={country}
               onChange={handleCountryChange}
             >
-              <option value="AF">Afghanistan</option>
+              {countries.map((country) => (
+                <option value={country.country}>{country.name}</option>
+              ))}
+
+              {/* <option value="AF">Afghanistan</option>
               <option value="CZ">Czech Republic</option>
-              <option value="BD">Bangladesh</option>
+              <option value="BD">Bangladesh</option> 
+              
+              chci input text, jeho obsah použiju na filtrování pole countries (use effect)
+              
+              */}
             </select>
           </div>
         </form>
