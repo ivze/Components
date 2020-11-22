@@ -6,12 +6,31 @@ import { countries } from './countries.js';
 
 const App = () => {
   const [country, setCountry] = useState('CZ');
-  // const [countryOption, setCountryOption] = useState('CZ');
   const [editMode, setEditMode] = useState(false);
+  const [filteredCountries, setFilteredCountries] = useState(null);
+  const [userFilter, setUserFilter] = useState('');
 
-  const handleCountryChange = (e) => {
-    setCountry(e.target.value);
-  };
+  useEffect(() => {
+    console.log(userFilter);
+    const userFilteredCountries = countries
+      .filter((item) => {
+        return item.name.toUpperCase().includes(userFilter.toUpperCase());
+      })
+      .slice(0, 10)
+      .map((item) => (
+        <div
+          key={item.name}
+          value={item.country}
+          onClick={() => {
+            setEditMode(false);
+            setCountry(item.name);
+          }}
+        >
+          {item.name}
+        </div>
+      ));
+    setFilteredCountries(userFilteredCountries);
+  }, [userFilter]);
 
   return (
     <div className="container">
@@ -27,25 +46,17 @@ const App = () => {
             )}
 
             {editMode && (
-              <input type="text" placeholder="Enter item to be searched" />
+              <input
+                type="text"
+                placeholder="Enter item to be searched"
+                onChange={(e) => {
+                  // console.log(e.target.value);
+                  setUserFilter(e.target.value);
+                }}
+              />
             )}
           </div>
-          {editMode && (
-            <div className="country-list">
-              {countries.map((item) => (
-                <div
-                  key={item.name}
-                  value={item.country}
-                  onClick={() => {
-                    setEditMode(false);
-                    setCountry(item.name);
-                  }}
-                >
-                  {item.name}
-                </div>
-              ))}
-            </div>
-          )}
+          {editMode && <div className="country-list">{filteredCountries}</div>}
         </form>
       </div>
     </div>
