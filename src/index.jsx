@@ -27,8 +27,10 @@ const App = () => {
           }}
         >
           {item.name}
+          <div className={`flag flag-${item.country.toLowerCase()}`}> </div>
         </div>
       ));
+
     setFilteredCountries(userFilteredCountries);
   }, [userFilter]);
 
@@ -39,16 +41,21 @@ const App = () => {
 2. kliknu do divu s jednou zemí, schová se div s jednou zemí, objeví se input text
 3. uživatel píše do input textu, na změnu textu (on change) se mění seznam států (div options)
 4. uživatel klikne na stát, ten se objeví v divu země, schová se zbytek */}
-        <form>
+        <form className="country-data">
           <div>
             {!editMode && (
-              <div onClick={() => setEditMode(true)}>vybrano je: {country}</div>
+              <div
+                className="country-selected"
+                onClick={() => setEditMode(true)}
+              >
+                vybrano je: {country}
+              </div>
             )}
 
             {editMode && (
               <input
                 type="text"
-                placeholder="Enter item to be searched"
+                placeholder="Enter country"
                 onChange={(e) => {
                   // console.log(e.target.value);
                   setUserFilter(e.target.value);
